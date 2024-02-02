@@ -5,7 +5,7 @@ This is an annoying thing where GIT is case-sensitive, but devops is not. I had 
 THE FIX:
 -	Switch to another branch (e.g. dev)
 -	Delete the trouble branch (e.g. work/RayCapizzo)
--	In file-explorer, navigate to your .git/refs folder (FieldStack-Primary/.git/refs/remotes/origin) and delete the problem folder (/work/RayCapizzo)
+-	In file-explorer, navigate to your .git/refs folder (repository/.git/refs/remotes/origin) and delete the problem folder (/work/RayCapizzo)
 -	Do a fetch
 -	Now you should be able to pull down the branch again.
 
