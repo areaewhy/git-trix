@@ -9,6 +9,17 @@ THE FIX:
 -	Do a fetch
 -	Now you should be able to pull down the branch again.
 
+## I need to rename my branch!
+- If the branch hasn't been pushed yet:
+  - `git branch -m <old-name> <new-name>`
+- If the branch HAS been pushed:
+  - `git branch -m <old_name> <new_name>`
+  - `git push origin --delete <old_name>`
+  - `git branch --unset-stream <new_name>`
+  - `git push origin <new_name>`
+  - `git push origin -u <new_name>`
+ 
+
 ## I forgot to add something to my commit
 Sometimes you do a feature, commit, then build, and the files change. Instead of undoing the last commit to add these changes or adding another noisy commit:
 -	stage the files you want git add .
@@ -18,6 +29,7 @@ Sometimes you do a feature, commit, then build, and the files change. Instead of
 ## I need to undo the last commit
 BEFORE pushing:
 •	git reset HEAD~ – If you do this repeatedly, it will keep pulling the changes from the last commits into the “staging” area, until you get to 0/0. Then you can undo those changes, or just the ones you want. 
+- you can also do `git reset HEAD~n` to move back `n` commits
 •	Also helpful is: 
 o	look in git history for the commit Id that you want to roll to
 o	run git reset --hard {commit-id} – this will reset your local history to that commit.
