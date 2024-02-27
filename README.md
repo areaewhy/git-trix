@@ -79,7 +79,7 @@ __!Note!: using hard can delete your work! If that happens, see reflog__
 -	git log – show recent commit messages
 -	git log --raw – show all files that changed
 -	git log --patch – show all changes
-## When did THAT happen?
+## When did THAT happen? ( search log )
 -	git log -S "word" -- find the commits where this word happened (added/removed)
 -	git log -S "word" -p -- show the diffs
 -	git log -S "word" -p file -- create patch file
@@ -101,81 +101,86 @@ If your branch has gotten into a weird state, you can undo everything you’ve d
 git reset --hard origin/[branch-name]
 ## I need to undo a rebase (done on your own computer):
 Run git reflog to see which HEAD@{#} to roll back to
-•	git reset --hard "HEAD@{1}" – (quotes are required for for Windows)
+- git reset --hard "HEAD@{1}" – (quotes are required for for Windows)
 ## I want to ignore/combine/rename some earlier commits
-•	find the commit id of the earliest commit
-•	git rebase -i {commit id}
-•	Edit the text file:
-o	remove commits that you want to ignore
-o	read through directions to discover other possibilities
+- find the commit id of the earliest commit
+- git rebase -i {commit id}
+- Edit the text file:
+- remove commits that you want to ignore
+- read through directions to discover other possibilities
 ## I branched off the wrong branch
-•	If your have changes from {wrong-branch} that are ahead of {right-branch}, this gets more complicated… 
-o	So far, the git rebase -i {commit id} has been a good choice – find the last “meaningful” commit that you want to go back to and use that as the commit id. 
-o	Erase the lines you don’t want.
-o	finish rebasing
-o	push -f.
-•	Probably git rebase --onto might be better..
-•	DO NOT merge {wrong-branch} into your branch – that makes things much more complicated.
-•	git rebase origin/{right-branch} – sometimes this is the right answer, and sometimes using --onto works better.. todo: figure out the difference.
-•	THE (very informative) DIFFERENCE: https://stackoverflow.com/a/33948237 
-•	git rebase --onto origin/{right-branch} {wrong-branch}
-o	Should get you into a pretty good state where your changes are appended to the current head of right-branch. 
+- If your have changes from {wrong-branch} that are ahead of {right-branch}, this gets more complicated…
+- So far, the git rebase -i {commit id} has been a good choice – find the last “meaningful” commit that you want to go back to and use that as the commit id.
+- Erase the lines you don’t want.
+- finish rebasing
+- push -f.
+  - Probably git rebase --onto might be better..
+  - DO NOT merge {wrong-branch} into your branch – that makes things much more complicated.
+  - git rebase origin/{right-branch} – sometimes this is the right answer, and sometimes using --onto works better.. todo: figure out the difference.
+  - THE (very informative) DIFFERENCE: https://stackoverflow.com/a/33948237 
+  - git rebase --onto origin/{right-branch} {wrong-branch}
+- Should get you into a pretty good state where your changes are appended to the current head of right-branch. 
 ## I want to undo changes AFTER COMMITTING:
-•	Anything done AFTER pushing means you need to “rewrite history”, which is scary but doable.
-•	If it’s your branch, and it’s unlikely that anyone else is working in it, it’s less scary.
-•	If it’s a branch that people ARE working in, you must coordinate with them so they know what to expect when pulling. It’s confusing and they have the opportunity to undo what you’ve done. Yuck.
-•	From the Git History, you can RESET --hard to the commit that you want to be on
-•	Then git push -f to force your local branch to be the remote branch
+  - Anything done AFTER pushing means you need to “rewrite history”, which is scary but doable.
+  - If it’s your branch, and it’s unlikely that anyone else is working in it, it’s less scary.
+  - If it’s a branch that people ARE working in, you must coordinate with them so they know what to expect when pulling. It’s confusing and they have the opportunity to undo what you’ve done. Yuck.
+  - From the Git History, you can RESET --hard to the commit that you want to be on
+  - Then git push -f to force your local branch to be the remote branch
 ## I need to undo the last merge
-o	These can be very confusing. git rebase -i HEAD~1 will give you the list of commits involved with the merge. You can delete the commits that were not yours.
-o	Sometimes there are merge-conflicts when rebasing. You must solve each of these and then git rebase --continue
+- These can be very confusing. git rebase -i HEAD~1 will give you the list of commits involved with the merge. You can delete the commits that were not yours.
+- Sometimes there are merge-conflicts when rebasing. You must solve each of these and then git rebase --continue
 It is often helpful in rebasing to do git status to see where you are and what your options are.
 Common choices:
-•	git rebase --abort
-•	git rebase --continue
+  - git rebase --abort
+  - git rebase --continue
 ## I force-pushed and overwrote someone else’s changes!
-•	I blindly sent git push -f on dev branch after not pulling for a while, and my latest HEAD pushed all subsequent commits out of the history tree. 
-•	!! After running the force-push, do not close the terminal !!
-•	You get a line that describes the commit change
-o	 + 000dfed25...c7816791f dev -> dev (forced update)
-•	The left-side is the old commit-id
-•	You can search for that commit in DevOps to find who it belonged to
-•	Find someone who has that commit on their computer (test with git checkout 000dfed25 – if they have it, they’ll end up in a detached state. Afterwards, flip back to the branch, e.g. git checkout dev)
-•	While on the branch, run git reset --hard 000dfed25 to point the local HEAD to the correct commit, then git push -f to the remote.
-•	(Link: https://www.jvt.me/posts/2021/10/23/undo-force-push/ )
+  - I blindly sent git push -f on dev branch after not pulling for a while, and my latest HEAD pushed all subsequent commits out of the history tree. 
+  - !! After running the force-push, do not close the terminal !!
+  - You get a line that describes the commit change
+-  + 000dfed25...c7816791f dev -> dev (forced update)
+  - The left-side is the old commit-id
+  - You can search for that commit in DevOps to find who it belonged to
+  - Find someone who has that commit on their computer (test with git checkout 000dfed25 – if they have it, they’ll end up in a detached state. Afterwards, flip back to the branch, e.g. git checkout dev)
+  - While on the branch, run git reset --hard 000dfed25 to point the local HEAD to the correct commit, then git push -f to the remote.
+  - (Link: https://www.jvt.me/posts/2021/10/23/undo-force-push/ )
+
+## I want to ignore a file just locally
+- add your ignore rule to `.git/info/exclude`
+  - https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files#excluding-local-files-without-creating-a-gitignore-file
 ## other notes:
 ### Edit config file in editor
-o	git config --global --edit
+- git config --global --edit
 ### Find branch parent (alias):
-o	parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
+- parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
 ### delete a branch: git branch -d <branch-name>
-o	use -D to ignore warnings
+- use -D to ignore warnings
 ### find branches that have been merged to the current branch (e.g. dev)
-o	git branch --merged
+- git branch --merged
 ### prune (detach branches that have been deleted upstream)
-o	git remote prune origin
-o	(“origin” is the remote – see your remotes with git remote -v
+- git remote prune origin
+- (“origin” is the remote – see your remotes with git remote -v
 ### Prune and delete detached branches: 
-o	[alias]
-o	  prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d
+- [alias]
+-   prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d
 ### Write “gone” branches to text file:
-o	git branch -vv | grep ': gone]' | awk '{print $1}' > branches-to-delete.txt
+- git branch -vv | grep ': gone]' | awk '{print $1}' > branches-to-delete.txt
 ### git branch --format "%(refname:short) %(upstream)" | awk '{if (!$2) print $1;}'
-o	https://stackoverflow.com/a/31776247 
+- https://stackoverflow.com/a/31776247 
 ### Delete branches in a file:
-o	(to pipe to a file: add > branches-to-delete.txt to… most things)
-o	edit the file nano branches-to-delete.txt
-o	remove rows you DON'T want to delete
-o	save changes (ctrl x, y)
-o	delete those branches:
-	while read r; do git branch -D $r; done <branches-to-delete.txt
+- (to pipe to a file: add > branches-to-delete.txt to… most things)
+- edit the file nano branches-to-delete.txt
+- remove rows you DON'T want to delete
+- save changes (ctrl x, y)
+- delete those branches:
+- `while read r; do git branch -D $r; done <branches-to-delete.txt`
+
 
 ## Helpful links:
-https://opensource.com/article/22/4/git-push 
-https://devconnected.com/how-to-clean-up-git-branches/#Git_Remote_Prune 
-https://medium.com/tempus-ex/what-exactly-is-a-git-commit-1cac6abcf73c 
-https://opensource.com/article/21/4/git-worktree 
-Learning links:
-https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13 ← organizing commits by “what they do”
-https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging ← tutorial for basic skills  
-https://www.freecodecamp.org/news/git-diff-and-patch/ ← What’s a Patch?
+- https://opensource.com/article/22/4/git-push
+- https://devconnected.com/how-to-clean-up-git-branches/#Git_Remote_Prune 
+- https://medium.com/tempus-ex/what-exactly-is-a-git-commit-1cac6abcf73c 
+- https://opensource.com/article/21/4/git-worktree 
+## Learning links:
+- https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13 ← organizing commits by “what they do”
+- https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging ← tutorial for basic skills  
+- https://www.freecodecamp.org/news/git-diff-and-patch/ ← What’s a Patch?
