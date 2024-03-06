@@ -15,7 +15,7 @@ THE FIX:
 - If the branch HAS been pushed:
   - `git branch -m <old_name> <new_name>`
   - `git push origin --delete <old_name>`
-  - `git branch --unset-stream <new_name>`
+  - `git branch --unset-upstream <new_name>`
   - `git push origin <new_name>`
   - `git push origin -u <new_name>`
  
