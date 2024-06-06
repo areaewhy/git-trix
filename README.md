@@ -147,6 +147,11 @@ Common choices:
 ## I want to ignore a file just locally
 - add your ignore rule to `.git/info/exclude`
   - https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files#excluding-local-files-without-creating-a-gitignore-file
+## .gitIgnore isn't working!
+- `git rm -r --cached .` -- (for single file, `git rm --cached filename`)
+- `git add .`
+- `git commit -m "fixed gitignore"`
+
 ## other notes:
 ### Edit config file in editor
 - git config --global --edit
