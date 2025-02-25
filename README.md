@@ -1,5 +1,19 @@
 # git-trix
 
+## Config Settings
+```
+[fetch]
+  prune = true
+[push]
+  autoSetupRemote = true
+[pull]
+  rebase = true
+[rerere]
+  enabled = true
+  autoupdated = true
+
+```
+
 ## Visual Studio: I can’t pull a branch! “branch does not exist”
 This is an annoying thing where GIT is case-sensitive, but devops is not. I had branches created as “work/RayCapizzo” and then “work/raycapizzo”, and users who had pulled “RayCapizzo” could not pull “raycapizzo”.
 THE FIX:
@@ -184,7 +198,8 @@ Common choices:
 - https://opensource.com/article/22/4/git-push
 - https://devconnected.com/how-to-clean-up-git-branches/#Git_Remote_Prune 
 - https://medium.com/tempus-ex/what-exactly-is-a-git-commit-1cac6abcf73c 
-- https://opensource.com/article/21/4/git-worktree 
+- https://opensource.com/article/21/4/git-worktree
+- https://blog.gitbutler.com/how-git-core-devs-configure-git/
 ## Learning links:
 - https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13 ← organizing commits by “what they do”
 - https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging ← tutorial for basic skills  
